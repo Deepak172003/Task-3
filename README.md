@@ -1,36 +1,87 @@
-# wrappy
+# Book API
 
-Callback wrapping utility
+A simple RESTful API for managing a collection of books, built with Express.js.
 
-## USAGE
+## Features
 
-```javascript
-var wrappy = require("wrappy")
+- List all books
+- Add a new book
+- Update an existing book
+- Delete a book
+  
 
-// var wrapper = wrappy(wrapperFunction)
+### Running the Server
 
-// make sure a cb is called only once
-// See also: http://npm.im/once for this specific use case
-var once = wrappy(function (cb) {
-  var called = false
-  return function () {
-    if (called) return
-    called = true
-    return cb.apply(this, arguments)
+
+node book-api/index.js
+
+The server will start at [http://localhost:3000](http://localhost:3000).
+
+## API Endpoints
+
+### Get all books
+
+
+GET /books
+
+**Response:**
+json
+[
+  {
+    "id": 1,
+    "title": "The Alchemist",
+    "author": "Paulo Coelho"
   }
-})
+]
 
-function printBoo () {
-  console.log('boo')
+
+### Add a new book
+
+
+POST /books
+
+
+**Request Body:**
+json
+{
+  "title": "Book Title",
+  "author": "Author Name"
 }
-// has some rando property
-printBoo.iAmBooPrinter = true
 
-var onlyPrintOnce = once(printBoo)
 
-onlyPrintOnce() // prints 'boo'
-onlyPrintOnce() // does nothing
+**Response:**
+json
+{
+  "id": 3,
+  "title": "Book Title",
+  "author": "Author Name"
+}
 
-// random property is retained!
-assert.equal(onlyPrintOnce.iAmBooPrinter, true)
-```
+
+### Update a book
+
+PUT /books/:id
+
+**Request Body:** (any or both fields)
+json
+{
+  "title": "Updated Title",
+  "author": "Updated Author"
+}
+
+**Response:**  
+Returns the updated book object.
+
+### Delete a book
+
+DELETE /books/:id
+
+**Response:**
+json
+{
+  "message": "Book deleted successfully"
+}
+
+## License
+
+This project is licensed under the ISC License.
